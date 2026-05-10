@@ -1,0 +1,109 @@
+╔══════════════════════════════════════════════════════════════╗
+║  PANDUAN MIGRASI DATABASE TURSO - WEBSITE PRAKASA           ║
+║  (Langkah 2.4 dari Panduan Deployment)                      ║
+╚══════════════════════════════════════════════════════════════╝
+
+APAKAH ITU "MIGRASI DATABASE"?
+-------------------------------
+Sederhananya: Database Turso yang baru Anda buat masih KOSONG.
+Migrasi = membuat tabel dan mengisi data awal ke database tersebut
+agar website bisa berjalan.
+
+BAYANGKAN: Database itu seperti EXCEL yang masih kosong (belum
+ada sheet/kolom). Migrasi = membuat nama sheet & header kolom,
+lalu isi beberapa baris data awal.
+
+
+CARA 1: PALING MUDAH (Melalui Browser Turso Shell)
+====================================================
+Gunakan cara ini jika Anda tidak terbiasa dengan terminal/command line.
+
+Langkah:
+1. Buka https://turso.tech/ dan LOGIN
+2. Klik database "prakasa-db" yang sudah dibuat
+3. Di halaman database, cari dan klik tombol "Shell" atau "Console"
+   (Ini membuka terminal SQL langsung di browser)
+4. Buka file "turso-migration.sql" yang ada di folder download
+5. Copy BAGIAN 1 (Buat Tabel) - dari CREATE TABLE pertama
+   sampai CREATE TABLE terakhir (ContactMessage)
+6. Paste ke Turso Shell, tekan Enter/Run
+7. Tunggu sampai muncul pesan sukses
+8. Copy BAGIAN 2 (Data Awal) - dari INSERT INTO Service
+   sampai INSERT INTO Project terakhir
+9. Paste ke Turso Shell, tekan Enter/Run
+10. Selesai! Database sudah siap.
+
+TIPS:
+- Jika error saat paste, coba copy per 2-3 perintah saja
+- Pastikan setiap perintah diakhiri titik koma (;)
+- Jika tabel sudah ada, tidak akan error (IF NOT EXISTS)
+
+
+CARA 2: PAKAI TERMINAL/KOMPUTER LOKAL
+=======================================
+Gunakan cara ini jika Anda terbiasa dengan command line/terminal.
+
+Langkah:
+1. Install Turso CLI:
+   - Mac:  brew install tursodatabase/tap/turso
+   - Windows: Download dari https://github.com/tursodatabase/turso-cli/releases
+   - Linux: curl -sSfL https://get.tur.so/install.sh | bash
+
+2. Login ke Turso:
+   turso auth login
+
+3. Hubungkan ke database:
+   turso db shell prakasa-db
+
+4. Di shell yang terbuka, paste SQL dari file turso-migration.sql
+   (satu bagian per satu bagian)
+
+5. Ketik .quit untuk keluar
+
+
+CARA 3: PAKE PRISMA (Otomatis)
+================================
+Gunakan cara ini jika Anda sudah install Node.js di komputer.
+
+Langkah:
+1. Buka terminal/command prompt
+2. Masuk ke folder website Prakasa
+3. Set environment variable:
+   
+   Windows (Command Prompt):
+   set DATABASE_URL=libsql://prakasa-db-xxxx.turso.so?authToken=xxxx
+   
+   Windows (PowerShell):
+   $env:DATABASE_URL="libsql://prakasa-db-xxxx.turso.so?authToken=xxxx"
+   
+   Mac/Linux:
+   export DATABASE_URL="libsql://prakasa-db-xxxx.turso.so?authToken=xxxx"
+
+4. Jalankan perintah:
+   npx prisma db push
+
+5. Tabel akan dibuat otomatis dari schema Prisma.
+   Tapi DATA AWAL tetap perlu diisi manual (pakai Cara 1 atau 2).
+
+
+PERTANYAAN YANG SERING DITANYAKAN (FAQ)
+==========================================
+
+Q: Harus pakai cara mana?
+A: Cara 1 paling mudah. Cukup browser + copy paste.
+
+Q: Apakah data dari website development ikut pindah?
+A: Tidak otomatis. Data awal (layanan, mitra, konten) sudah
+   disiapkan di file turso-migration.sql. Data proyek dan foto
+   bisa ditambahkan nanti melalui Admin Dashboard setelah deploy.
+
+Q: Kalau ada error "table already exists"?
+A: Itu normal, artinya tabel sudah ada. Tidak masalah.
+
+Q: Bagaimana cek apakah tabel sudah berhasil dibuat?
+A: Di Turso Shell, ketik: .tables
+   Akan muncul daftar tabel yang sudah dibuat.
+
+Q: Setelah ini lanjut apa?
+A: Lanjut ke Langkah 3: Setup Cloudinary (penyimpanan foto)
+

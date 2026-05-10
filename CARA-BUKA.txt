@@ -1,0 +1,34 @@
+================================================
+  PRAKASA WEBSITE - PANDUAN SETUP
+================================================
+
+FILE INI BERISI KODE WEBSITE LENGKAP.
+
+-- CARA MEMBUKA --
+
+1. Extract file "prakasa-website.zip" ini
+   - Windows: Klik kanan > Extract All
+   - Mac: Klik 2x
+   - Android: Gunakan app ZArchiver
+
+2. Setelah di-extract, Anda akan melihat folder:
+   - src/          = Kode website (halaman, komponen, API)
+   - prisma/       = Database schema
+   - public/       = Gambar dan aset website
+   - dll.
+
+3. Buka file "Panduan-Deployment-Website-Prakasa.docx"
+   untuk panduan cara publish website ke internet.
+
+-- CARA DEPLOY KE INTERNET (RINGKASAN) --
+
+1. Daftar GitHub (github.com) lalu upload folder ini
+2. Daftar Turso (turso.tech) untuk database gratis
+3. Daftar Cloudinary (cloudinary.com) untuk gambar gratis
+4. Daftar Vercel (vercel.com) lalu import dari GitHub
+5. Tambahkan environment variables di Vercel
+6. Klik Deploy - Website langsung online!
+
+Baca file .docx untuk panduan lengkap step-by-step.
+
+================================================
